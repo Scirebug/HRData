@@ -1,25 +1,14 @@
-import React, { useState } from "react";
-import { saveConfig, getConfigList } from "../api/s3";
+import React from "react";
 
 const style = { padding: 10, border: "1px solid black" };
-const buttonStyle = {
-  marginLeft: 10,
-  border: "1px solid #000000",
-  borderRadius: 6,
-  padding: 3,
-  fontSize: 12,
-  cursor: "pointer",
-};
+
 
 export const PanelSelector = ({
   panel,
   setPanel,
   panels,
-  filter,
-  setFilter,
 }) => {
-  const [showList, setShowList] = useState(false);
-  const [configList, setConfigList] = useState();
+  
 
   return (
     <div
