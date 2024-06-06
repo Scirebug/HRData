@@ -14,7 +14,6 @@ export function draw(container, data, config) {
     series,
     svg: svgx,
     timeFormat,
-    topLabel,
   } = config;
 
   const linesx = series
@@ -38,12 +37,8 @@ export function draw(container, data, config) {
     })
     .map((item) => item.i);
 
-  const formatteddata = data.map((d) => {
-    if (x_axis.scale === "scaleTime") {
-      return { date: d3.timeParse(timeFormat)(d.date), value: d.value };
-    } else {
+  const formatteddata = data.map((d) => {    
       return { date: d.date, value: d.value };
-    }
   });
 
   const svg = d3.select(container);
@@ -60,32 +55,6 @@ export function draw(container, data, config) {
     .append("g")
     .attr("transform", "translate(" + 0 + "," + 0 + ")");
 
-  if (topLabel) {
-    const topLabelGroup = svg
-      .append("g")
-      .attr("transform", "translate(" + 0 + "," + 0 + ")");
-    topLabel.forEach((label, i) => {
-      topLabelGroup
-        .append("g")
-        .attr(
-          "transform",
-          "translate(" +
-            (label.left_right === "left"
-              ? layout.margin.left + label.offset.x
-              : layout.margin.left + width + label.offset.x) +
-            "," +
-            (layout.margin.top + label.offset.y) +
-            ")"
-        )
-        .append("text")
-        .attr("fill", label.color)
-        .style("text-anchor", label.anchor)
-        .style("font-size", label.fontSize)
-        .style("font-weight", label.fontWeight)
-        .text(label.text)
-        .text(label.text);
-    });
-  }
 
   let legendGroup = {};
   if (legend) {
@@ -109,9 +78,7 @@ export function draw(container, data, config) {
     );
 
   /** scales */
-  let x = {};
-  if (x_axis.scale === "scaleBand") {
-    x = d3
+  const  x = d3
       .scaleBand()
       .domain(
         formatteddata.map((d) => {
@@ -120,34 +87,7 @@ export function draw(container, data, config) {
       )
       .range([0, width])
       .padding(bars && bars.padding ? bars.padding : 0);
-  } else if (x_axis.scale === "scaleLinear") {
-    x = d3
-      .scaleLinear()
-      .domain(
-        formatteddata.map((d, i) => {
-          return d.date;
-        })
-      )
-      .range([0, width]);
-  } else if (x_axis.scale === "scaleOrdinal") {
-    x = d3
-      .scaleOrdinal()
-      .domain(
-        formatteddata.map((d, i) => {
-          return d.date;
-        })
-      )
-      .range([0, width]);
-  } else {
-    x = d3
-      .scaleTime()
-      .domain(
-        d3.extent(formatteddata, function (d) {
-          return d.date;
-        })
-      )
-      .range([0, width]);
-  }
+
 
   const subgroups = bars?.subgroups;
 

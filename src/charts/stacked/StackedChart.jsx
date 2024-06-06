@@ -4,8 +4,6 @@ import { draw } from "./draw";
 export const StackedChart = ({ data, filter }) => {
   const ref = useRef(null);
 
-  console.log('filter',filter)
-
   const drawGraph = () => {
     draw(ref.current, data, filter);
   };
