@@ -1,0 +1,62 @@
+{
+    "valueRange": [
+        0,
+        20000,
+        40000,
+        60000,
+        80000,
+        100000
+    ],
+    "dataSeries": [
+        {
+            "date": "2023-07-07T00:00:00Z",
+            "dateFormatted": "Jul 23",
+            "value": 0
+        },
+        {
+            "date": "2023-08-01T00:00:00",
+            "dateFormatted": "Aug 23",
+            "value": 75000
+        },
+        {
+            "date": "2023-09-01T00:00:00",
+            "dateFormatted": "Sep 23",
+            "value": 0
+        },
+        {
+            "date": "2023-10-01T00:00:00",
+            "dateFormatted": "Oct 23",
+            "value": 0
+        },
+        {
+            "date": "2023-11-01T00:00:00",
+            "dateFormatted": "Nov 23",
+            "value": 0
+        },
+        {
+            "date": "2023-12-01T00:00:00",
+            "dateFormatted": "Dec 23",
+            "value": 72500
+        },
+        {
+            "date": "2024-01-01T00:00:00",
+            "dateFormatted": "Jan 24",
+            "value": 72500
+        }
+    ],
+    "regressionLine": {
+        "percentageChange": -3.559674962021626,
+        "data": [
+            {
+                "date": "2023-07-07T00:00:00Z",
+                "dateFormatted": "Jul 23",
+                "value": 75681.0181064606
+            },
+            {
+                "date": "2024-01-01T00:00:00",
+                "dateFormatted": "Jan 24",
+                "value": 72482.8965022527
+            }
+        ]
+    }
+}

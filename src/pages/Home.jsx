@@ -17,6 +17,10 @@ export const Home = () => {
         <li style={liStyle}>
           <a href={`/stacked`}>Stacked</a>
         </li>
+
+        <li style={liStyle}>
+          <a href={`/line`}>Line</a>
+        </li>
       </ul>
     </div>
   );
