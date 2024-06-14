@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { createTooltipGroup, onMouseover, onMouseOut } from "./tooltipFunctions";
 
 import d3Gradient from "./d3Gradient";
 // import d3Responsivefy from './d3Responsivefy';
@@ -32,10 +33,10 @@ const d3LineGraph = (container, data, axis, margin, color) => {
   chartGroup
     .attr("class", "d3-svg-salary")
     .style("opacity", 1)
-    .style("font-family", "Inter")
-    // .call(d3Responsivefy) // Make it responsive, requires the svg as prop but using D3 .call function already supplies it
-    // .on("pointerenter pointermove", pointermoved)
-    // .on("pointerleave", pointerleft);
+    .style("font-family", "Inter");
+  // .call(d3Responsivefy) // Make it responsive, requires the svg as prop but using D3 .call function already supplies it
+  // .on("pointerenter pointermove", pointermoved)
+  // .on("pointerleave", pointerleft);
 
   // Add defs and call gradient
   chartGroup.append("defs");
@@ -257,8 +258,14 @@ const d3LineGraph = (container, data, axis, margin, color) => {
         .selectAll(".xText")
         .style("color", color.text)
         .style("font-weight", "400");
+
+      onMouseOut(chartGroup);
     })
-    .on("mouseover", function () {
+    .on("mouseover", function (event, d) {
+
+  
+      onMouseover(event.x, event.y, d, chartGroup, width, margin);
+
       d3.selectAll(".circle").filter(":hover").attr("r", "8px");
 
       d3.select(this).selectAll(".hover-line").style("opacity", 1);
@@ -279,71 +286,63 @@ const d3LineGraph = (container, data, axis, margin, color) => {
     });
 
   //   // Create the tooltip container.
-  const tooltip = chartGroup.append("g").attr("class", "tooltip");
+  // const tooltip = chartGroup.append("g").attr("class", "tooltip");
 
   // Add the event listeners that show or hide the tooltip.
-  const bisect = d3.bisector((d) => d[axis.x]).center;
+  // const bisect = d3.bisector((d) => d[axis.x]).center;
 
-  function pointermoved(event) {
-    const i = bisect(data[axis.xa], x.invert(d3.pointer(event)[0]));
-    console.log("i", i);
+  // function pointermoved(event) {
+  //   const i = bisect(data[axis.xa], x.invert(d3.pointer(event)[0]));
+  //   console.log("i", i);
 
-    tooltip.style("display", null);
-    tooltip.attr(
-      "transform",
-      `translate(${x(data[i][axis.x])},${y(data[i][axis.y])})`
-    );
+  //   tooltip.style("display", null);
+  //   tooltip.attr(
+  //     "transform",
+  //     `translate(${x(data[i][axis.x])},${y(data[i][axis.y])})`
+  //   );
 
-    const path = tooltip
-      .selectAll("path")
-      .data(data)
-      .join("path")
-      .attr("fill", "white")
-      .attr("stroke", "black");
+  //   const path = tooltip
+  //     .selectAll("path")
+  //     .data(data)
+  //     .join("path")
+  //     .attr("fill", "white")
+  //     .attr("stroke", "black");
 
-    const text = tooltip
-      .selectAll("text")
-      .data(data)
-      .join("text")
-      .call((text) =>
-        text
-          .selectAll("tspan")
-          .data([data[i][axis.x], data[i][axis.y]])
-          .join("tspan")
-          .attr("x", 0)
-          .attr("y", (_, i) => `${i * 1.1}em`)
-          .attr("font-weight", (_, i) => (i ? null : "bold"))
-          .text((d) => d)
-      );
+  //   const text = tooltip
+  //     .selectAll("text")
+  //     .data(data)
+  //     .join("text")
+  //     .call((text) =>
+  //       text
+  //         .selectAll("tspan")
+  //         .data([data[i][axis.x], data[i][axis.y]])
+  //         .join("tspan")
+  //         .attr("x", 0)
+  //         .attr("y", (_, i) => `${i * 1.1}em`)
+  //         .attr("font-weight", (_, i) => (i ? null : "bold"))
+  //         .text((d) => d)
+  //     );
 
-    sizeFunc(text, path);
-  }
+  //   sizeFunc(text, path);
+  // }
 
-  function pointerleft() {
-    tooltip.style("display", "none");
-  }
+  // function pointerleft() {
+  //   tooltip.style("display", "none");
+  // }
 
   // // Wraps the text with a callout path of the correct size, as measured in the page.
-  function sizeFunc(text, path) {
-    const { x, y, width: w, height: h } = text.node().getBBox();
-    text.attr("transform", `translate(${-w / 2},${15 - y})`);
-    path.attr(
-      "d",
-      `M${-w / 2 - 10},5H-5l5,-5l5,5H${w / 2 + 10}v${h + 20}h-${w + 20}z`
-    );
-  }
+  // function sizeFunc(text, path) {
+  //   const { x, y, width: w, height: h } = text.node().getBBox();
+  //   text.attr("transform", `translate(${-w / 2},${15 - y})`);
+  //   path.attr(
+  //     "d",
+  //     `M${-w / 2 - 10},5H-5l5,-5l5,5H${w / 2 + 10}v${h + 20}h-${w + 20}z`
+  //   );
+  // }
 
-  //   // Change opacity on load
-  // d3.select('.d3-svg-salary')
-  //   .transition()
-  //   .duration(1000)
-  //   .delay(100)
-  //   .style('opacity', () => {
-  //     return d3.select('.d3-svg-salary').style('opacity') === '1' ? 0 : 1;
-  //   });
+  /////
 
-  //   // return chartGroup.node();
-  // };
+  createTooltipGroup(chartGroup, d3);
 };
 
 export default d3LineGraph;
