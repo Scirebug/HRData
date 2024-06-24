@@ -1,3 +1,7 @@
+import median from "../../images/medianT.png";
+import upper from "../../images/upperT.png";
+import lower from "../../images/lowerT.png";
+
 /*************HASH YOUR DATA FOR INSTANT ACCESS ON A KEY FROM DATA ARRAY **********/
 
 const data = {
@@ -47,12 +51,19 @@ const numberWithCommas = (x) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-/***************YOU PROBABLY WANT TO MODIFY THIS FUNCTION TO INCLUDE THAT LITTLE ICON THING 
+/***************YOU PROBABLY WANT TO MODIFY THIS FUNCTION TO INCLUDE THAT LITTLE ICON THING
  * IT IS AN HTML TABLE SO NICE TO STYLE.
-*/
+ */
 
-const appendLineTooltip = (tbody, tooltips, label, classx) => {
+const appendLineTooltip = (tbody, tooltips, label, classx, image) => {
   const tr_line = tbody.append("xhtml:tr");
+  const imagetd = tr_line.append("xhtml:td");
+
+  imagetd
+    .append("xhtml:img")
+    .attr("src", image)
+    .attr("height", 10)
+    .attr("width", 10);
   tr_line
     .append("xhtml:td")
     .style("text-align", tooltips.td.align.label)
@@ -118,7 +129,7 @@ export const onMouseover = (x, y, d, chartGroup, width, margin) => {
   const pdivwidth = pdiv.getBoundingClientRect().width;
   const pdivheight = pdiv.getBoundingClientRect().height;
 
-  /*********CALCULATE THE OFFSETS OF THE TOOLTIP DEPENDING ON WHERE THE MOUSE IS 
+  /*********CALCULATE THE OFFSETS OF THE TOOLTIP DEPENDING ON WHERE THE MOUSE IS
    * CLICKED
    */
 
@@ -194,9 +205,27 @@ export const createTooltipGroup = (chartGroup, d3) => {
     .style("border", tooltips.table.border);
   const tbody = table.append("xhtml:tbody");
 
-  appendLineTooltip(tbody, tooltips, "Upper Quartile", "table-upper-quartile");
-  appendLineTooltip(tbody, tooltips, "Median Salary", "table-median-salary");
-  appendLineTooltip(tbody, tooltips, "Lower Quartile", "table-lower-quartile");
+  appendLineTooltip(
+    tbody,
+    tooltips,
+    "Upper Quartile",
+    "table-upper-quartile",
+    upper
+  );
+  appendLineTooltip(
+    tbody,
+    tooltips,
+    "Median Salary",
+    "table-median-salary",
+    median
+  );
+  appendLineTooltip(
+    tbody,
+    tooltips,
+    "Lower Quartile",
+    "table-lower-quartile",
+    lower
+  );
 
   /*****************IF YOU HAVE A BORDER THEN THE ARROW WILL ALWAYS APPEAR WITH THE UNWANTED LINE
    * ON TOP OF THE TRIANGLE. YOU COULD:
