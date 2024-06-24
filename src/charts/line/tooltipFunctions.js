@@ -1,7 +1,3 @@
-import median from "../../images/medianT.png";
-import upper from "../../images/upperT.png";
-import lower from "../../images/lowerT.png";
-
 /*************HASH YOUR DATA FOR INSTANT ACCESS ON A KEY FROM DATA ARRAY **********/
 
 const data = {
@@ -55,15 +51,47 @@ const numberWithCommas = (x) => {
  * IT IS AN HTML TABLE SO NICE TO STYLE.
  */
 
-const appendLineTooltip = (tbody, tooltips, label, classx, image) => {
+const appendLineTooltip = (tbody, tooltips, label, classx, barColours) => {
   const tr_line = tbody.append("xhtml:tr");
   const imagetd = tr_line.append("xhtml:td");
 
-  imagetd
-    .append("xhtml:img")
-    .attr("src", image)
+  const imageSvg = imagetd
+    .append("svg")
+    .attr("xmlns", "http://www.w3.org/2000/svg")
+    .attr("viewBox", "0 0 10 10")
     .attr("height", 10)
     .attr("width", 10);
+
+  imageSvg
+    .append("path")
+    .attr("fillRule", "evenodd")
+    .attr("clipRule", "evenodd")
+    .attr(
+      "d",
+      "M0 8.45235C0 7.99211 0.295197 7.61902 0.659341 7.61902H5.05495C5.41909 7.61902 5.71429 7.99211 5.71429 8.45235C5.71429 8.91259 5.41909 9.28569 5.05495 9.28569H0.659341C0.295197 9.28569 0 8.91259 0 8.45235Z"
+    )
+    .attr("fill", barColours[0]);
+
+  imageSvg
+    .append("path")
+    .attr("fillRule", "evenodd")
+    .attr("clipRule", "evenodd")
+    .attr(
+      "d",
+      "M2.14307 4.99999C2.14307 4.53975 2.43826 4.16666 2.80241 4.16666H7.19801C7.56216 4.16666 7.85735 4.53975 7.85735 4.99999C7.85735 5.46023 7.56216 5.83332 7.19801 5.83332H2.80241C2.43826 5.83332 2.14307 5.46023 2.14307 4.99999Z"
+    )
+    .attr("fill", barColours[1]);
+
+  imageSvg
+    .append("path")
+    .attr("fillRule", "evenodd")
+    .attr("clipRule", "evenodd")
+    .attr(
+      "d",
+      "M4.28564 1.54763C4.28564 1.08739 4.58084 0.714294 4.94499 0.714294H9.34059C9.70473 0.714294 9.99993 1.08739 9.99993 1.54763C9.99993 2.00786 9.70473 2.38096 9.34059 2.38096H4.94499C4.58084 2.38096 4.28564 2.00786 4.28564 1.54763Z"
+    )
+    .attr("fill", barColours[2]);
+
   tr_line
     .append("xhtml:td")
     .style("text-align", tooltips.td.align.label)
@@ -205,27 +233,21 @@ export const createTooltipGroup = (chartGroup, d3) => {
     .style("border", tooltips.table.border);
   const tbody = table.append("xhtml:tbody");
 
-  appendLineTooltip(
-    tbody,
-    tooltips,
-    "Upper Quartile",
-    "table-upper-quartile",
-    upper
-  );
-  appendLineTooltip(
-    tbody,
-    tooltips,
-    "Median Salary",
-    "table-median-salary",
-    median
-  );
-  appendLineTooltip(
-    tbody,
-    tooltips,
-    "Lower Quartile",
-    "table-lower-quartile",
-    lower
-  );
+  appendLineTooltip(tbody, tooltips, "Upper Quartile", "table-upper-quartile", [
+    "#C9B2D9",
+    "#C9B2D9",
+    "#4B0082",
+  ]);
+  appendLineTooltip(tbody, tooltips, "Median Salary", "table-median-salary", [
+    "#C9B2D9",
+    "#4B0082",
+    "#C9B2D9",
+  ]);
+  appendLineTooltip(tbody, tooltips, "Lower Quartile", "table-lower-quartile", [
+    "#4B0082",
+    "#C9B2D9",
+    "#C9B2D9",
+  ]);
 
   /*****************IF YOU HAVE A BORDER THEN THE ARROW WILL ALWAYS APPEAR WITH THE UNWANTED LINE
    * ON TOP OF THE TRIANGLE. YOU COULD:
